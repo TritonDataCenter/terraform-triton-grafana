@@ -1,0 +1,53 @@
+{
+  "variables": {
+    "triton_account": "{{ env `SDC_ACCOUNT` }}",
+    "triton_key_id": "{{ env `SDC_KEY_ID` }}",
+    "triton_url": "{{ env `SDC_URL` }}",
+    "timestamp": "{{ isotime \"2006-01-02T030405Z\" }}",
+    "version": "4.5.2",
+    "prometheus_address": ""
+  },
+  "builders": [
+    {
+      "type": "triton",
+      "triton_account": "{{ user `triton_account` }}",
+      "triton_key_id": "{{ user `triton_key_id` }}",
+      "triton_url": "{{ user `triton_url` }}",
+      "source_machine_name": "packer-builder-grafana-{{uuid}}",
+      "source_machine_image_filter": {
+        "name": "ubuntu-16.04",
+        "type": "lx-dataset",
+        "most_recent": true
+      },
+      "source_machine_package": "g4-general-4G",
+      "source_machine_metadata": {
+        "grafana_version": "{{ user `version` }}",
+        "prometheus_address": "{{ user `prometheus_address` }}"
+      },
+      "ssh_username": "root",
+      "image_name": "grafana",
+      "image_version": "{{ user `version` }}-{{ user `timestamp` }}",
+      "image_description": "Built by Packer at {{ user `timestamp` }}}."
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "mkdir -p /tmp/grafana_installer/"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "scripts/install_grafana.sh",
+      "destination": "/tmp/grafana_installer/install_grafana.sh"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "chmod 0755 /tmp/grafana_installer/install_grafana.sh",
+        "sudo /tmp/grafana_installer/install_grafana.sh"
+      ]
+    }
+  ]
+}
