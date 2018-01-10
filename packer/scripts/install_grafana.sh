@@ -103,6 +103,10 @@ function install_grafana() {
 
 }
 
+# get_dashboard_json - returns the triton dashboard json
+#
+# Parameters:
+#   -
 function get_dashboard_json() {
   echo '
 {
