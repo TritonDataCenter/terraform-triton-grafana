@@ -45,7 +45,7 @@ variable "provision" {
 
 variable "version" {
   description = "The version of Grafana to install. See https://grafana.com/grafana/download."
-  default     = "4.5.2"
+  default     = "4.6.3"
   type        = "string"
 }
 
