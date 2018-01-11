@@ -33,7 +33,7 @@ module "bastion" {
 }
 
 module "prometheus" {
-  source = "github.com/joyent/terraform-triton-prometheus?ref=f-initial-commit"
+  source = "github.com/joyent/terraform-triton-prometheus"
 
   name    = "prometheus-with-provisioning"
   image   = "${data.triton_image.ubuntu.id}" # note: using the UBUNTU image here
