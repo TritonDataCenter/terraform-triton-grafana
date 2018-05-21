@@ -20,7 +20,7 @@ data "triton_account" "current" {}
 # Locals
 #
 locals {
-  grafana_address = "${var.role_tag}.svc.${data.triton_account.current.id}.${data.triton_datacenter.current.name}.${var.cns_fqdn_base}"
+  grafana_address = "${var.cns_service_name}.svc.${data.triton_account.current.id}.${data.triton_datacenter.current.name}.${var.cns_fqdn_base}"
 }
 
 #
@@ -34,10 +34,6 @@ resource "triton_machine" "grafana" {
   firewall_enabled = true
 
   networks = ["${var.networks}"]
-
-  tags {
-    role = "${var.role_tag}"
-  }
 
   cns {
     services = ["${var.cns_service_name}"]
@@ -53,7 +49,7 @@ resource "triton_machine" "grafana" {
 # Firewall Rules
 #
 resource "triton_firewall_rule" "ssh" {
-  rule        = "FROM tag \"role\" = \"${var.bastion_role_tag}\" TO tag \"role\" = \"${var.role_tag}\" ALLOW tcp PORT 22"
+  rule        = "FROM tag \"triton.cns.services\" = \"${var.bastion_cns_service_name}\" TO tag \"triton.cns.services\" = \"${var.cns_service_name}\" ALLOW tcp PORT 22"
   enabled     = true
   description = "${var.name} - Allow access from bastion hosts to Grafana servers."
 }
@@ -61,7 +57,7 @@ resource "triton_firewall_rule" "ssh" {
 resource "triton_firewall_rule" "web_access" {
   count = "${length(var.client_access)}"
 
-  rule        = "FROM ${var.client_access[count.index]} TO tag \"role\" = \"${var.role_tag}\" ALLOW tcp PORT 3000"
+  rule        = "FROM ${var.client_access[count.index]} TO tag \"triton.cns.services\" = \"${var.cns_service_name}\" ALLOW tcp PORT 3000"
   enabled     = true
   description = "${var.name} - Allow access from clients to Grafana servers."
 }

@@ -1,22 +1,14 @@
 #
 # Outputs
 #
-output "bastion_ip" {
-  value = ["${module.bastion.bastion_ip}"]
-}
-
-output "grafana_ip" {
-  value = ["${module.grafana.grafana_ip}"]
-}
-
-output "grafana_address" {
-  value = ["${module.grafana.grafana_address}"]
-}
-
-output "prometheus_ip" {
-  value = ["${module.prometheus.prometheus_ip}"]
+output "bastion_address" {
+  value = "${module.bastion.bastion_address}"
 }
 
 output "prometheus_address" {
-  value = ["${module.prometheus.prometheus_address}"]
+  value = "${module.prometheus.prometheus_address}"
+}
+
+output "grafana_address" {
+  value = "${module.grafana.grafana_address}"
 }

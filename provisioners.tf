@@ -5,8 +5,10 @@ resource "null_resource" "grafana_install" {
     machine_ids = "${triton_machine.grafana.*.id[count.index]}"
   }
 
+  depends_on = ["triton_firewall_rule.ssh"]
+
   connection {
-    bastion_host        = "${var.bastion_host}"
+    bastion_host        = "${var.bastion_address}"
     bastion_user        = "${var.bastion_user}"
     bastion_private_key = "${file(var.private_key_path)}"
 

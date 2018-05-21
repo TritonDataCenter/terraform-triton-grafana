@@ -4,7 +4,7 @@
     "triton_key_id": "{{ env `SDC_KEY_ID` }}",
     "triton_url": "{{ env `SDC_URL` }}",
     "timestamp": "{{ isotime \"2006-01-02T030405Z\" }}",
-    "version": "4.6.3",
+    "version": "5.1.3",
     "prometheus_address": ""
   },
   "builders": [
@@ -27,7 +27,11 @@
       "ssh_username": "root",
       "image_name": "grafana",
       "image_version": "{{ user `version` }}-{{ user `timestamp` }}",
-      "image_description": "Built by Packer at {{ user `timestamp` }}}."
+      "image_description": "Built by Packer at {{ user `timestamp` }}}.",
+      "image_tags": {
+        "grafana_version": "{{ user `version` }}",
+        "prometheus_address": "{{ user `prometheus_address` }}"
+      }
     }
   ],
   "provisioners": [

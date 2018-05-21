@@ -32,12 +32,6 @@ variable "user" {
   default     = "root"
 }
 
-variable "role_tag" {
-  description = "The 'role' tag for the Grafana machine(s)."
-  type        = "string"
-  default     = "grafana"
-}
-
 variable "provision" {
   description = "Boolean 'switch' to indicate if Terraform should do the machine provisioning to install and configure Grafana."
   type        = "string"
@@ -45,7 +39,7 @@ variable "provision" {
 
 variable "version" {
   description = "The version of Grafana to install. See https://grafana.com/grafana/download."
-  default     = "4.6.3"
+  default     = "5.1.3"
   type        = "string"
 }
 
@@ -67,7 +61,7 @@ EOF
 variable "cns_fqdn_base" {
   description = "The fully qualified domain name base for the CNS address - e.g. 'triton.zone' for Joyent Public Cloud."
   type        = "string"
-  default     = "cns.joyent.com"
+  default     = "triton.zone"
 }
 
 variable "client_access" {
@@ -81,8 +75,8 @@ EOF
   default = ["all vms"]
 }
 
-variable "bastion_host" {
-  description = "The Bastion host to use for provisioning."
+variable "bastion_address" {
+  description = "The Bastion address to use for provisioning."
   type        = "string"
 }
 
@@ -91,7 +85,7 @@ variable "bastion_user" {
   type        = "string"
 }
 
-variable "bastion_role_tag" {
-  description = "The 'role' tag for the Grafana machine(s) to allow access FROM the Bastion machine(s)."
+variable "bastion_cns_service_name" {
+  description = "The CNS service name for the Prometheus machine(s) to allow access FROM the Bastion machine(s)."
   type        = "string"
 }
